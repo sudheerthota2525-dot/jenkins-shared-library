@@ -4,7 +4,7 @@ def call (Map configMap){
     // These are pre-build sections
         agent {
             node {
-                label 'AGENT-1'
+                label 'AGENT-1' //roboshop-java
             }
         }
         environment {
@@ -23,8 +23,7 @@ def call (Map configMap){
             stage('Read Version') {
                 steps {
                     script{
-                        def packageJSON = readJSON file: 'package.json'
-                        appVersion = packageJSON.version
+                        appVersion = readFile(file: 'version')
                         echo "app version: ${appVersion}"
                     }
                 }
@@ -33,7 +32,7 @@ def call (Map configMap){
                 steps {
                     script{
                         sh """
-                            npm install
+                            pip3 install -r requirements.txt
                         """
                     }
                 }
